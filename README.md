@@ -1,39 +1,65 @@
-# 🇧🇷 SolidSign API - Front-end de Exemplo: Assinatura CMS/CAdES em Nuvem/HSM (React)
-
-Este projeto é a contrapartida visual do back-end [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud). Reaproveita a lógica de campos e parâmetros da tela **Assinar CMS (Nuvem/HSM)** do Portal SolidSign, simplificada: sem login, sem i18n e sem co-assinatura.
+# 🇧🇷 SolidSign API - Front-end de Exemplo: Assinatura CMS com HSM/Nuvem (React)
 
 ## Como funciona
 
-Este front-end fala com o back-end de exemplo local (`POST /api/cms/sign/form`, CORS liberado), que repassa `authorization`/`baseUrl`/`cloudCredentials`, assina, baixa os `.p7s` resultantes e devolve um único `.zip` pronto pra download.
+Este front-end chama `POST /api/cms/sign/form` (`http://localhost:8080` por padrão) no back-end de exemplo, enviando as credenciais do HSM/nuvem (`hsmUrl`, `hsmToken`, `uuidCert`). O back-end assina o(s) documento(s) e devolve um `.zip`.
 
-## Pré-requisitos
+## Requisitos
 
-1. Rode o back-end [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud) localmente (`mvn spring-boot:run`, porta padrão `8080`).
-2. Tenha um token JWT válido e as credenciais do seu provedor de HSM/nuvem (URL, token de acesso e UUID do certificado).
+Rode **um** destes back-ends de exemplo localmente (todos implementam o mesmo endpoint de formulário e a mesma porta padrão usada abaixo):
 
-## Rodando
+- **Java**: [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud)
+- **C#**: [`exemplo-csharp-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-csharp-integracao-cms-cloud)
+- **TypeScript**: [`exemplo-typescript-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-typescript-integracao-cms-cloud)
+- **Python**: [`exemplo-python-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-python-integracao-cms-cloud)
+- **PHP**: [`exemplo-php-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-php-integracao-cms-cloud)
+- **Node.js**: [`exemplo-nodejs-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-nodejs-integracao-cms-cloud)
+- **JavaScript**: [`exemplo-javascript-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-javascript-integracao-cms-cloud)
+
+- Um token JWT válido (`POST /solidsign/auth/token`)
+
+## Como rodar
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abra `http://localhost:5173`, preencha o formulário e assine.
+Abra `http://localhost:5173`, preencha o formulário e envie.
+
+## Variáveis do formulário
+
+| Campo | Significado | Default |
+|---|---|---|
+| `baseUrl` | URL base da SolidSign API | `https://www.solidsign.com.br` |
+| `authorization` | Token JWT (Bearer) | (vazio) |
+| `hsmUrl / hsmToken / uuidCert` | Credenciais do HSM/PSC de nuvem | (vazio) |
+| `documents` | Documento(s) a assinar | (vazio) |
+| `profile` | Perfil de assinatura PBAD/ETSI | `ADRB` |
+| `hashAlgorithm` | Algoritmo de hash | `SHA256` |
+| `signaturePackaging` | Empacotamento CMS | `ATTACHED` |
 
 ---
 
-# 🇬🇧 SolidSign API - Example Front-end: Cloud/HSM CMS/CAdES Signing (React)
-
-This project is the visual counterpart to the [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud) backend. It reuses the field logic from the Portal SolidSign **Sign CMS (Cloud/HSM)** screen, simplified: no login, no i18n and no co-signing.
+# 🇬🇧 SolidSign API - Example Front-end: CMS Signing with HSM/Cloud (React)
 
 ## How it works
 
-This front-end talks to the local example backend (`POST /api/cms/sign/form`, CORS enabled), which forwards `authorization`/`baseUrl`/`cloudCredentials`, signs, downloads the resulting `.p7s` files and returns a single ready-to-download `.zip`.
+This front-end calls `POST /api/cms/sign/form` (`http://localhost:8080` by default) on the example backend, sending the HSM/cloud credentials (`hsmUrl`, `hsmToken`, `uuidCert`). The backend signs the document(s) and returns a `.zip`.
 
-## Prerequisites
+## Requirements
 
-1. Run the [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud) backend locally (`mvn spring-boot:run`, default port `8080`).
-2. Have a valid JWT token and your cloud/HSM provider credentials (URL, access token and certificate UUID).
+Run **one** of these example backends locally (all implement the same form endpoint and default port used below):
+
+- **Java**: [`exemplo-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-integracao-cms-cloud)
+- **C#**: [`exemplo-csharp-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-csharp-integracao-cms-cloud)
+- **TypeScript**: [`exemplo-typescript-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-typescript-integracao-cms-cloud)
+- **Python**: [`exemplo-python-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-python-integracao-cms-cloud)
+- **PHP**: [`exemplo-php-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-php-integracao-cms-cloud)
+- **Node.js**: [`exemplo-nodejs-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-nodejs-integracao-cms-cloud)
+- **JavaScript**: [`exemplo-javascript-integracao-cms-cloud`](https://github.com/SolidTechSolutions/exemplo-javascript-integracao-cms-cloud)
+
+- A valid JWT token (`POST /solidsign/auth/token`)
 
 ## Running
 
@@ -42,4 +68,16 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173`, fill in the form and sign.
+Open `http://localhost:5173`, fill in the form and submit.
+
+## Form fields
+
+| Field | Meaning | Default |
+|---|---|---|
+| `baseUrl` | SolidSign API base URL | `https://www.solidsign.com.br` |
+| `authorization` | JWT (Bearer) token | (empty) |
+| `hsmUrl / hsmToken / uuidCert` | Cloud HSM/PSC credentials | (empty) |
+| `documents` | Document(s) to sign | (empty) |
+| `profile` | PBAD/ETSI signature profile | `ADRB` |
+| `hashAlgorithm` | Hash algorithm | `SHA256` |
+| `signaturePackaging` | CMS packaging | `ATTACHED` |
